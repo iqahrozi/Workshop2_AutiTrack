@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "454836734612",
+    "project_id": "autitrack-ba059",
+    "storage_bucket": "autitrack-ba059.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454836734612:android:612ea3c4b81b286e4a4281",
+        "android_client_info": {
+          "package_name": "com.example.autitrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQYjOT9_dlBOJGZkD1xGL_eyiiBMG_HjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454836734612:android:10d74b36b56962c84a4281",
+        "android_client_info": {
+          "package_name": "com.example.autitrack_progress"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQYjOT9_dlBOJGZkD1xGL_eyiiBMG_HjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
