@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../util/MoodTile.dart';
+import 'moodlist.dart';
 
 class CategoryPage extends StatelessWidget {
 
@@ -20,7 +21,19 @@ class CategoryPage extends StatelessWidget {
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
         backgroundColor: Colors.lightGreen[100],
-        title: Center(child: Text('Mood Trigger Autism', style: TextStyle(fontSize: 32, color: Colors.white))),
+        title: Center(child: Text('Autism Mood', style: TextStyle(fontSize: 32, color: Colors.white))),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.list_alt_outlined),
+            onPressed: () {
+              // Navigate to MoodList page when the button is pressed
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MoodList()),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -29,7 +42,7 @@ class CategoryPage extends StatelessWidget {
               itemCount: MoodDetected.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 1 / 1.6,
+                childAspectRatio: 1 / 1.3,
               ),
               itemBuilder: (context, index) {
                 return MoodTile(
@@ -46,7 +59,7 @@ class CategoryPage extends StatelessWidget {
             child: Text(
               "Autism is not a choice. However, acceptance is. Embrace the unique brilliance, celebrate the small victories, and love the extraordinary journey of those with autism.",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
           ),
         ],

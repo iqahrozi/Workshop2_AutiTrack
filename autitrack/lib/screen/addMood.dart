@@ -1,77 +1,101 @@
-import 'package:autitrack/screen/moodDetail.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:autitrack/controller/moodActivityController.dart';
-import 'package:autitrack/screen/moodDetail.dart';
-//import 'package:autitrack/repository/moodRepository.dart';
+import 'package:autitrack/screen/moodlist.dart';
 
+class AddMoodPage extends StatefulWidget {
+  final currentUserId;
 
-import '../model/moodModel.dart';
-
-class Detail extends StatefulWidget {
+  const AddMoodPage({required this.currentUserId});
 
   @override
-  State<Detail> createState() => _DetailState();
+  _AddMoodPageState createState() => _AddMoodPageState();
 }
 
-class _DetailState extends State<Detail> {
-
+class _AddMoodPageState extends State<AddMoodPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final behaviourEditingController = TextEditingController();
-  final dateEditingController = TextEditingController();
-  final placeEditingController = TextEditingController();
-  final beforeEditingController = TextEditingController();
-  final afterEditingController = TextEditingController();
-
   final _controller = MoodActivityController();
 
-  void addMood({
-    required String behaviourOccur,
-    required String date,
-    required String place,
-    required String symptomBefore,
-    required String symptomAfter,
-  }) async {
-    MoodModel mood = MoodModel(
-      behaviorOccur: behaviourOccur,
-      date: date,
-      place: place,
-      symptomBefore: symptomBefore,
-      symptomAfter: symptomAfter,
-    );
+  TextEditingController placeEditingController = TextEditingController();
+  TextEditingController dateEditingController = TextEditingController();
+  TextEditingController beforeEditingController = TextEditingController();
+  TextEditingController afterEditingController = TextEditingController();
+  TextEditingController triggerEditingController = TextEditingController();
 
-    await _controller.addMood(context, mood);
+  String selectedBehavior = 'None';
+  List<String> behaviorOptions = [
+    'None',
+    'Anger',
+    'Sad',
+    'Anxiety',
+    'Irritability',
+    'Fear',
+    'Dissatisfaction',
+    'Hurt',
+    'Happy',
+    'Others'
+  ];
 
-    try {
-      String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
-      // Access Firestore collection reference for parents or users
-      CollectionReference moodCollection =
-      FirebaseFirestore.instance.collection('mood');
+  String selectedTrigger = 'None';
+  List<String> triggerOptions = [
+    'None',
+    'Communication Challenges',
+    'Sensory Overload',
+    'Unfamiliar Environment',
+    'Social Challenges',
+    'Transition and Change in Routine',
+    'Crowded or Busy Environment',
+    'Physical Discomfort',
+    'Others'
+  ];
 
-      // Add the parent data to Firestore with the UID as the document ID
-      await moodCollection.doc(uid).set({
-        'behaviourOccur': behaviourOccur,
-        'date': date,
-        'place': place,
-        'symptomBefore': symptomBefore,
-        'symptomAfter': symptomAfter,
-      });
+  void addMood() async {
+    User? user = _auth.currentUser;
 
-      // Proceed with navigation or any other operations after successful document creation
-    } catch (error) {
-      // Handle any potential errors
-      print('Error creating mood document: $error');
+    if (user != null) {
+      String userId = user.uid;
+
+      Map<String, dynamic> moodData = {
+        'userId': userId,
+        'behavior': selectedBehavior,
+        'place': placeEditingController.text,
+        'date': dateEditingController.text,
+        'symptomBefore': beforeEditingController.text,
+        'symptomAfter': afterEditingController.text,
+        'trigger': selectedTrigger,
+      };
+
+      try {
+        await _firestore.collection('mood').add(moodData);
+
+        placeEditingController.clear();
+        dateEditingController.clear();
+        beforeEditingController.clear();
+        afterEditingController.clear();
+        triggerEditingController.clear();
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MoodList()),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Mood data saved successfully!'),
+          ),
+        );
+      } catch (error) {
+        print('Error adding mood data: $error');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Failed to save mood data. Please try again. Error: $error'),
+          ),
+        );
+      }
     }
-  }
-
-
-String selectedBehavior = 'Sad';
-  List<String> behaviorOptions = ['Anger', 'Sad', 'Anxiety', 'Irritability'];
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -80,120 +104,120 @@ String selectedBehavior = 'Sad';
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
         backgroundColor: Colors.lightGreen[100],
-
-        title: Center(
+        title: const Center(
           child: Text(
             'Mood Record',
-            style: TextStyle(fontSize: 32, color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 32, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
       ),
-      body: _buildTabContent(),
-    );
-  }
-
-  Widget _buildTabContent() {
-    return Center(
-      child: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 5),
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.pink[100],
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    'Please fill the details below for',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                  SizedBox(height: 10),
-                  DropdownButton<String>(
-                    value: selectedBehavior,
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedBehavior = newValue!;
-                      });
-                    },
-                    items: behaviorOptions.map((behavior) {
-                      return DropdownMenuItem<String>(
-                        value: behavior,
-                        child: Text(behavior),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ),
-            buildTextField('Insert Place', placeEditingController),
-            buildDateTextField('Insert Date', dateEditingController),
-            buildTextField('Insert Symptom Before', beforeEditingController),
-            buildTextField('Insert Symptom After', afterEditingController),
+            _buildDropdown(
+                'Select Behavior', behaviorOptions, selectedBehavior),
+            const SizedBox(height: 16),
+            _buildDropdown('Select Trigger', triggerOptions, selectedTrigger),
+            const SizedBox(height: 16),
+            _buildTextField(
+                'Insert Place', placeEditingController, Icons.location_on),
+            const SizedBox(height: 16),
+            _buildDateTextField(
+                'Insert Date', dateEditingController, Icons.calendar_today),
+            const SizedBox(height: 16),
+            _buildTextField('Insert Symptom Before', beforeEditingController,
+                Icons.warning),
+            const SizedBox(height: 16),
+            _buildTextField(
+                'Insert Symptom After', afterEditingController, Icons.warning),
+            const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () async {
-                addMood(
-                  behaviourOccur: selectedBehavior,
-                  date: dateEditingController.text,
-                  place: placeEditingController.text,
-                  symptomBefore: beforeEditingController.text,
-                  symptomAfter: afterEditingController.text,
-                );
-
-                // Navigate to MoodDetailsPage
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MoodDetailsPage(
-                      moodData: {
-                        'behaviour occur':  selectedBehavior,
-                        'date': dateEditingController.text,
-                        'place': placeEditingController.text,
-                        'Symptom before': beforeEditingController.text,
-                        'Symptom after': afterEditingController.text,
-                      },
-                      selectedBehavior: selectedBehavior,
-                    ),
-                  ),
-                );
-              },
-              child: Text('Save'),
+              onPressed: addMood,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.amberAccent,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              child: const Text(
+                'Save',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
-
           ],
         ),
       ),
     );
   }
-  Widget buildTextField(String label, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
+
+  Widget _buildDropdown(String label, List<String> options, String selectedValue) {
+    return InputDecorator(
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: selectedValue,
+          onChanged: (newValue) {
+            setState(() {
+              if (label == 'Select Behavior') {
+                selectedBehavior = newValue!;
+              } else if (label == 'Select Trigger') {
+                selectedTrigger = newValue!;
+              }
+            });
+          },
+          items: options.map((option) {
+            return DropdownMenuItem<String>(
+              value: option,
+              child: Text(option),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+  Widget _buildTextField(String label, TextEditingController controller,
+      IconData icon) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(
+          icon,
+          color: Colors.deepOrangeAccent,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
     );
   }
 
-  Widget buildDateTextField(String label, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        controller: controller,
-        readOnly: true,
-        onTap: _selectDate,
-        decoration: InputDecoration(
-          labelText: label,
+  Widget _buildDateTextField(String label, TextEditingController controller,
+      IconData icon) {
+    return TextField(
+      controller: controller,
+      readOnly: true,
+      onTap: _selectDate,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(
+          icon,
+          color: Colors.deepOrangeAccent,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
     );
   }
 
-  _selectDate() async {
+  void _selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),

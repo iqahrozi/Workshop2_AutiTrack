@@ -39,23 +39,36 @@ class _MoodPageState extends State<MoodPage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(length: myTabs.length,
+    return DefaultTabController(
+      length: myTabs.length,
       child: Scaffold(
           backgroundColor: Colors.lightGreen[100],
           appBar: AppBar(
-            backgroundColor: Colors.lightGreen[100],
-            title: Center(child: Text('Autism Triggers List', style: TextStyle(fontSize: 32, color: Colors.white))),
+            backgroundColor: Colors.lightGreen[200],
+            title: Center(
+              child: Text(
+                'Autism Mood',
+                style: TextStyle(fontSize: 32, color: Colors.white),
+              ),
+            ),
           ),
           body: Column(
             children: [
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 18.0),
+              Padding(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 50.0, vertical: 18.0),
                 child: Row(
                   children: const [
-                    Center(
-                      child:
-                      Text("The Autism's Child Possible Mood", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
 
-                    ),],
+                    Text(
+                      "The Autism's Child Possible Mood Might Trigger Their Tantrum",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 24),

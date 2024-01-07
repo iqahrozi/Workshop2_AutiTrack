@@ -10,6 +10,7 @@ class MoodActivityController {
     try {
       await moodCollection.add({
         'behaviorOccur': mood.behaviorOccur,
+        'trigger': mood.trigger,
         'date': mood.date,
         'place': mood.place,
         'symptomBefore': mood.symptomBefore,

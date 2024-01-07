@@ -58,6 +58,7 @@ dependencies:
   permission_handler: ^11.0.1
   firebase_app_check: ^0.2.1+8
   shared_preferences: ^2.2.2
+  fl_chart: ^0.65.0
 
 
 

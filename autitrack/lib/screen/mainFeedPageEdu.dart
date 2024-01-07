@@ -6,6 +6,7 @@ import '../constants/constants.dart';
 import '../model/feedModel.dart';
 import '../services/databaseServices.dart';
 import 'educatorProfilePage.dart';
+import 'moodPage.dart';
 
 
 class MainFeedPageEdu extends StatefulWidget {
@@ -98,8 +99,17 @@ class _MainFeedPageEduState extends State<MainFeedPageEdu> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        leading: Container(
-          height: 40,
+        leading: IconButton(
+          icon: Icon(Icons.mood), // You can replace 'mood' with the appropriate emotion icon.
+          onPressed: () {
+            // Navigate to the mood page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MoodPage(currentUserId: '',), // Replace 'MoodPage' with the actual page you want to navigate to.
+              ),
+            );
+          },
         ),
         title: Text(
           'Feeds',

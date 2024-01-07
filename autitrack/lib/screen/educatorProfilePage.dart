@@ -138,6 +138,7 @@ class _EducatorProfilePageState extends State<EducatorProfilePage> {
                             ),
                         const SizedBox(height:5),
                           Text(
+
                         educatorName,
                       style: Theme.of(context).textTheme.bodyMedium,
                       ),
