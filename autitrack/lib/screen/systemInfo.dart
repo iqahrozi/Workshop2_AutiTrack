@@ -76,7 +76,7 @@ class SystemInfo extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Your Company Name',
+                  'BITS Software Developer',
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 16),

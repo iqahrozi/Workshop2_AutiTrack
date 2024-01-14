@@ -1,3 +1,4 @@
+import 'package:autitrack/screen/moodCategory.dart';
 import 'package:autitrack/screen/parentProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:autitrack/model/parentModel.dart';
@@ -110,7 +111,7 @@ class _MainFeedPageParentState extends State<MainFeedPageParent> {
         ),
         title: Text(
           'Feeds',
-          style: TextStyle(
+          style: TextStyle( 
             color: AutiTrackColor,
           ),
         ),

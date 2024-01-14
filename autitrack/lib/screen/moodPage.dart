@@ -48,7 +48,7 @@ class _MoodPageState extends State<MoodPage> {
             title: Center(
               child: Text(
                 'Autism Mood',
-                style: TextStyle(fontSize: 32, color: Colors.white),
+                style: TextStyle(fontSize: 32, color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),
           ),

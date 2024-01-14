@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:autitrack/screen/moodStatistic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -18,7 +19,7 @@ class _MoodListState extends State<MoodList> {
     return Scaffold(
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[100],
+        backgroundColor: Colors.lightGreen[200],
         title: const Center(
           child: Text(
             'Mood List',
@@ -29,6 +30,20 @@ class _MoodListState extends State<MoodList> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.show_chart),
+            onPressed: () {
+              // Navigate to the mood statistics page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MoodStats(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -70,12 +85,18 @@ class _MoodListState extends State<MoodList> {
                   itemBuilder: (context, index) {
                     var moodData = moodDocs[index].data() as Map<String, dynamic>;
                     return Card(
-                      elevation: 3,
+                      elevation: 5,
                       margin: const EdgeInsets.all(8.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       child: ListTile(
                         title: Text(
                           'Behavior: ${moodData['behavior']}',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                         subtitle: Text('Trigger: ${moodData['trigger']}'),
                         onTap: () {
@@ -94,7 +115,6 @@ class _MoodListState extends State<MoodList> {
                                   buildDetailRow('Place', moodData['place']),
                                   buildDetailRow('Symptom Before', moodData['symptomBefore']),
                                   buildDetailRow('Symptom After', moodData['symptomAfter']),
-                                  // Add more details as needed
                                 ],
                               ),
                               actions: [
@@ -135,10 +155,18 @@ class _MoodListState extends State<MoodList> {
         children: [
           Text(
             '$label: ',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
           Expanded(
-            child: Text(value),
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
           ),
         ],
       ),
@@ -152,27 +180,27 @@ class _MoodListState extends State<MoodList> {
 
   void showDeleteConfirmationDialog(DocumentReference reference) {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-            title: Text('Confirm Deletion'),
-            content: Text('Are you sure you want to delete this mood record?'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close the confirmation dialog
-                },
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Perform hard delete if confirmed
-                  _hardDeleteMood(reference);
-                  Navigator.pop(context); // Close the confirmation dialog
-                },
-                child: Text('Delete'),
-              ),
-            ],
-            ),
-        );
-    }
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirm Deletion'),
+        content: Text('Are you sure you want to delete this mood record?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the confirmation dialog
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Perform hard delete if confirmed
+              _hardDeleteMood(reference);
+              Navigator.pop(context); // Close the confirmation dialog
+            },
+            child: Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
 }

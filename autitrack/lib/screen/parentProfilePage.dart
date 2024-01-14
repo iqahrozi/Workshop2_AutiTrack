@@ -8,6 +8,8 @@ import 'package:autitrack/screen/systemInfo.dart'; // Import the SystemInfoPage
 import 'package:get/get.dart';
 import 'package:autitrack/widgets/ProfileMenu.dart';
 
+import 'childInfo.dart';
+
 class ParentProfilePage extends StatefulWidget {
   final String currentUserId;
 
@@ -99,7 +101,7 @@ class _ParentProfilePageState extends State<ParentProfilePage> {
             future: _fetchParentData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
@@ -175,6 +177,18 @@ class _ParentProfilePageState extends State<ParentProfilePage> {
                           MaterialPageRoute(
                             builder: (context) => SystemInfo(),
                           )),
+                    ),
+                    const Divider(color: Colors.green),
+                    ProfileMenuWidget(
+                      title: "Child Information",
+                      icon: Icons.child_care,
+                      onPress: () {
+                        // Navigate to the Child Information page
+                        // Replace ChildInfoPage with the actual page for displaying child information
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) => ChildInfoPage(),
+                        ));
+                      },
                     ),
                     const Divider(color: Colors.green),
                     ProfileMenuWidget(

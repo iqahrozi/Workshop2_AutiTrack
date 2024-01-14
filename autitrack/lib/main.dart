@@ -1,7 +1,7 @@
 import 'package:autitrack/screen/homePage.dart';
 import 'package:autitrack/screen/mainFeedPageEdu.dart';
 import 'package:autitrack/screen/mainFeedPageParent.dart';
-import 'package:autitrack/screen/moodPage.dart';
+import 'package:autitrack/screen/moodStatistic.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

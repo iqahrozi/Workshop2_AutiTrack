@@ -10,7 +10,7 @@ class AngerTab extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              color: Colors.yellow[100],
+              color: Colors.red,
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: Text(

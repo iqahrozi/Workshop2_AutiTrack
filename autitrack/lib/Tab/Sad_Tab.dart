@@ -10,7 +10,7 @@ class SadTab extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              color: Colors.yellow[100],
+              color: Colors.blue,
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: Text(

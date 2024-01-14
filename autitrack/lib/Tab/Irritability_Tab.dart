@@ -10,7 +10,7 @@ class IrritabilityTab extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              color: Colors.yellow[100],
+              color: Colors.deepOrange,
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Center(
                 child: Text(

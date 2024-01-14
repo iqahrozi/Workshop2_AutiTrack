@@ -112,40 +112,42 @@ class _AddMoodPageState extends State<AddMoodPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildDropdown(
-                'Select Behavior', behaviorOptions, selectedBehavior),
-            const SizedBox(height: 16),
-            _buildDropdown('Select Trigger', triggerOptions, selectedTrigger),
-            const SizedBox(height: 16),
-            _buildTextField(
-                'Insert Place', placeEditingController, Icons.location_on),
-            const SizedBox(height: 16),
-            _buildDateTextField(
-                'Insert Date', dateEditingController, Icons.calendar_today),
-            const SizedBox(height: 16),
-            _buildTextField('Insert Symptom Before', beforeEditingController,
-                Icons.warning),
-            const SizedBox(height: 16),
-            _buildTextField(
-                'Insert Symptom After', afterEditingController, Icons.warning),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: addMood,
-              style: ElevatedButton.styleFrom(
-                primary: Colors.amberAccent,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildDropdown(
+                  'Select Behavior', behaviorOptions, selectedBehavior),
+              const SizedBox(height: 16),
+              _buildDropdown('Select Trigger', triggerOptions, selectedTrigger),
+              const SizedBox(height: 16),
+              _buildTextField(
+                  'Insert Place', placeEditingController, Icons.location_on),
+              const SizedBox(height: 16),
+              _buildDateTextField(
+                  'Insert Date', dateEditingController, Icons.calendar_today),
+              const SizedBox(height: 16),
+              _buildTextField('Insert Symptom Before', beforeEditingController,
+                  Icons.warning),
+              const SizedBox(height: 16),
+              _buildTextField(
+                  'Insert Symptom After', afterEditingController, Icons.warning),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: addMood,
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.amberAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: const Text(
+                  'Save',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-              child: const Text(
-                'Save',
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
